@@ -8,6 +8,7 @@ export default {
 				secondary: "#5F00BA",
 				accent: "#A09BE7",
 			},
+			checked: {},
 		},
 	},
 	plugins: [],

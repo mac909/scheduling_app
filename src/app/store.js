@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import homeReducer from "../pages/homepage/homeSlice";
+import introReducer from "../components/Intro/introSlice";
+import orderFormReducer from "../components/newOrderForm/orderFormSlice";
 
 export default configureStore({
 	reducer: {
-		username: homeReducer,
+		username: introReducer,
+		orders: orderFormReducer,
 	},
 });

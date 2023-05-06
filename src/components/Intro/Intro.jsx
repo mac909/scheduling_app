@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { homeNewUser } from "../../pages/homepage/homeSlice";
+import { newUser } from "./introSlice";
 import introImage from "../../assets/introImage.svg";
+import { Form } from "react-router-dom";
 import timeImage from "../../assets/time.jpg";
 
 const Intro = () => {
@@ -39,7 +40,7 @@ const Intro = () => {
 							className="h-full rounded-l-xl"
 						/>
 					</div>
-					<div className="flex flex-col w-full my-auto mx-auto px-10 py-4 ">
+					<div className="flex flex-col w-full my-auto mx-auto px-10 py-4">
 						<p className="text-2xl mb-10 mx-auto">
 							Sign in and get started now
 						</p>
@@ -50,8 +51,8 @@ const Intro = () => {
 							onChange={(e) => setNewUserName(e.target.value)}
 						/>
 						<button
-							className=" bg-secondary text-white rounded-sm m-8 p-1 rounded-xl w-20 mx-auto"
-							onClick={() => dispatch(homeNewUser(newUserName))}
+							className=" bg-secondary text-white  m-8 p-1 rounded-xl w-20 mx-auto"
+							onClick={() => dispatch(newUser(newUserName))}
 						>
 							Sign In
 						</button>

@@ -1,21 +1,17 @@
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
 import Intro from "../../components/Intro/Intro";
+import Userhomepage from "../userhomepage/Userhomepage";
+import { useSelector } from "react-redux";
+import Navbar from "../../components/Navbar/Navbar";
 
 const Home = () => {
-	const userName = useSelector((state) => state.username.value);
+	const username = useSelector((state) => state.username.value);
 
 	return (
-		<>
-			{userName ? (
-				<div>
-					<h1>Welcome {userName}!!</h1>
-				</div>
-			) : (
-				<Intro />
-			)}
-		</>
+		<div>
+			{username ? <Navbar /> : <></>}
+			{username ? <Userhomepage /> : <Intro />}
+		</div>
 	);
 };
 
