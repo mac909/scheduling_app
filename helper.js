@@ -16,27 +16,17 @@ export const deleteItem = ({ key, id }) => {
 	return localStorage.removeItem(key);
 };
 
-export const createUser = (userName) => {
-	return localStorage.setItem("userName", JSON.stringify(userName));
-	// return toast.success(`Welcome ${userName}`);
+export const findOrderById = (orders, id) => {
+	return orders.find((order) => order.id === id);
 };
 
-export const createOrder = ({ customer, product, price, qty, ops }) => {
-	const newItem = {
-		id: uuidv4(),
-		customer: customer,
-		product: product,
-		qty: qty,
-		price: price,
-		ops: ops,
-		createdAt: Date.now(),
-	};
-	const existingOrders = fetchData("orders") ?? [];
-	return localStorage.setItem(
-		"orders",
-		JSON.stringify([...existingOrders, newItem])
-	);
+export const getAllMatchingItems = ({ category, key, value }) => {
+	const data = fetchData(category) ?? [];
+	return data.filter((item) => item[key] === value);
 };
+
+export const formatDateToLocaleString = (epoch) =>
+	new Date(epoch).toLocaleDateString();
 
 export const formatCurrency = (amt) => {
 	return amt.toLocaleString(undefined, {

@@ -5,10 +5,14 @@ import React from "react";
 
 // react router
 import { Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
+import Navbar from "../../components/Navbar/Navbar";
 
 const Main = () => {
+	const username = useSelector((state) => state.username.value);
 	return (
 		<div>
+			{username ? <Navbar /> : <></>}
 			<main>
 				<Outlet />
 			</main>

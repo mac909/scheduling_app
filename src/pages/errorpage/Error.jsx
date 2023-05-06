@@ -10,11 +10,14 @@ const Error = () => {
 			<h1>Uh oh! We've got a problem</h1>
 			<p>{error.message || error.statusText}</p>
 			<div className="flex-md" onClick={() => navigate(-1)}>
-				<button className="btn btn--dark">
+				<button className="bg-secondary text-white m-8 p-1 rounded-xl w-20 mx-auto">
 					<ArrowUturnLeftIcon width={24} />
 					<span>Go Back</span>
 				</button>
-				<Link to="/" className="btn btn--dark">
+				<Link
+					to="/"
+					className="bg-secondary text-white m-8 p-1 rounded-xl w-20 mx-auto"
+				>
 					<span>Go Home</span>
 					<HomeIcon width={24} />
 				</Link>

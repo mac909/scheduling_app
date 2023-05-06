@@ -1,13 +1,17 @@
-import React, { useState } from "react";
-import { Form, redirect } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Form, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { newOrder } from "./orderFormSlice";
-import OrderTable from "../OrderTable/OrderTable";
+import { findOrderById } from "../../../helper";
+import { updateOrder } from "../newOrderForm/orderFormSlice";
 
-const OrderForm = () => {
+const EditOrderForm = (props) => {
+	const { id } = props;
+	const navigate = useNavigate();
+	const orders = useSelector((state) => state.orders.value);
+	const order = findOrderById(orders, id);
 	const dispatch = useDispatch();
 
-	const [selectedCheckboxes, setSelectedCheckboxes] = useState([]);
+	const [selectedCheckboxes, setSelectedCheckboxes] = useState(order.ops);
 
 	const handleCheckboxChange = (checkboxValue) => {
 		let updatedCheckboxes;
@@ -27,12 +31,29 @@ const OrderForm = () => {
 		product: "",
 		price: 0,
 		quantity: 0,
-		ops: selectedCheckboxes,
+		ops: [],
 	});
+
+	useEffect(() => {
+		if (order) {
+			setFormData({
+				customer: order.customer,
+				product: order.product,
+				price: order.price,
+				quantity: order.quantity,
+				ops: order.ops,
+			});
+		}
+	}, [order]);
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-		dispatch(newOrder(formData));
+		dispatch(
+			updateOrder({
+				id: order.id,
+				updates: formData,
+			})
+		);
 		setSelectedCheckboxes([]);
 		setFormData({
 			customer: "",
@@ -41,6 +62,7 @@ const OrderForm = () => {
 			quantity: 0,
 			ops: selectedCheckboxes,
 		});
+		navigate(-1);
 	};
 
 	const handleChange = (event) => {
@@ -48,9 +70,9 @@ const OrderForm = () => {
 	};
 
 	return (
-		<div className="border border-2 border-secondary rounded-2xl my-4 py-4">
+		<div>
 			<Form
-				className="mt-12 grid grid-col-1 sm:grid-cols-2 gap-4 "
+				className="mt-12 grid grid-col-1 sm:grid-cols-2 gap-4"
 				method="post"
 			>
 				<div className="flex flex-col gap-4 ">
@@ -191,11 +213,10 @@ const OrderForm = () => {
 				className="bg-secondary text-white m-8 p-1 rounded-xl w-20 mx-auto"
 				onClick={handleSubmit}
 			>
-				Add Order
+				Save Changes
 			</button>
-			<OrderTable />
 		</div>
 	);
 };
 
-export default OrderForm;
+export default EditOrderForm;

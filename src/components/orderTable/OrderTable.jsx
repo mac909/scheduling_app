@@ -4,6 +4,8 @@ import { formatCurrency } from "../../../helper";
 import { TrashIcon, ArrowLeftOnRectangleIcon } from "@heroicons/react/24/solid";
 import { deleteOrder } from "../newOrderForm/orderFormSlice";
 import "./orderTable.css";
+import { Form, Link } from "react-router-dom";
+import { findOrderById } from "../../../helper";
 
 const OrderTable = () => {
 	const orders = useSelector((state) => state.orders.value);
@@ -49,25 +51,32 @@ const OrderTable = () => {
 									)}
 								</td>
 								<td>
-									<button
-										type="submit"
-										className="btn btn--warning"
-										aria-label={`Delete ${order.id} expense`}
-									>
-										<ArrowLeftOnRectangleIcon width={24} />
-									</button>
+									<Link to={`/edit/${order.id}`}>
+										<button type="submit" className="btn">
+											<ArrowLeftOnRectangleIcon
+												width={24}
+											/>
+										</button>
+									</Link>
 								</td>
 								<td>
-									<button
-										type="submit"
-										className="btn btn--warning"
-										aria-label={`Delete ${order.id} expense`}
-										onClick={() =>
-											dispatch(deleteOrder(order.id))
-										}
+									<Form
+										onSubmit={(event) => {
+											if (
+												!confirm(
+													"Are you sure you want to permanently delete this order?"
+												)
+											) {
+												event.preventDefault();
+											} else {
+												dispatch(deleteOrder(order.id));
+											}
+										}}
 									>
-										<TrashIcon width={24} />
-									</button>
+										<button type="submit" className="btn">
+											<TrashIcon width={24} />
+										</button>
+									</Form>
 								</td>
 							</tr>
 						))}

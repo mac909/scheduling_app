@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
+import { formatDateToLocaleString } from "../../../helper";
 
 export const orderFormSlice = createSlice({
 	name: "orders",
@@ -15,7 +16,8 @@ export const orderFormSlice = createSlice({
 				quantity: action.payload.quantity,
 				price: action.payload.price,
 				ops: action.payload.ops,
-				createdAt: Date.now(),
+				createdAt: formatDateToLocaleString(Date.now()),
+				updatedAt: formatDateToLocaleString(Date.now()),
 			};
 			state.value = [...state.value, newItem];
 		},
@@ -24,8 +26,20 @@ export const orderFormSlice = createSlice({
 				(order) => order.id !== action.payload
 			);
 		},
+		updateOrder: (state, action) => {
+			const { id, updates } = action.payload;
+			const orderIndex = state.value.findIndex(
+				(order) => order.id === id
+			);
+			if (orderIndex !== -1) {
+				state.value[orderIndex] = {
+					...state.value[orderIndex],
+					...updates,
+				};
+			}
+		},
 	},
 });
 
-export const { newOrder, deleteOrder } = orderFormSlice.actions;
+export const { newOrder, deleteOrder, updateOrder } = orderFormSlice.actions;
 export default orderFormSlice.reducer;
